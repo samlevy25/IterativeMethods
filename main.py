@@ -1,3 +1,18 @@
+def isDominantDiagonal(matrix):
+    size = len(matrix)
+    for i in range(size):
+        pivot, sum = abs(matrix[i][i]), 0
+        for k in range(size):
+            sum = sum + abs(matrix[i][k])
+        if sum - pivot > pivot:
+            return False
+    return True
+
+
+def MatrixAddition(matrix_1, matrix_2):
+    return [[matrix_1[i][k] + matrix_2[i][k] for k in range(len(matrix_1))] for i in range(len(matrix_1))]
+
+
 def precision(num):
     epsilon = 1.0
     while (1.0 + 0.5 * epsilon) != 1:
@@ -81,3 +96,5 @@ def DLU(matrix):  # create D, L and U matrix
 
 def jacobiMethod(D, L, U, b, x):
     x = matrixMultiply(-invertMatrix(D), L + U) * x + invertMatrix(D) * b
+
+
