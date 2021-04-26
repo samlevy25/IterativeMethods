@@ -8,6 +8,20 @@ def precision(num):
         return num
 
 
+def swap_row(A, i, j):
+    temp = A[i]
+    A[i] = A[j]
+    A[j] = temp
+
+
+def pivoting(matrix, b):
+    for i in range(len(matrix)):
+        for j in range(i + 1, len(matrix)):
+            if matrix[i][i] < matrix[j][i]:
+                swap_row(matrix, i, j)
+                swap_row(b, i, j)
+
+
 def matrixMultiply(matrix_1, matrix_2):
     result = [[0] * len(matrix_2) for i in range(len(matrix_1))]  # Initializing the result matrix (with zeros)
     for i in range(len(matrix_1)):
@@ -79,5 +93,20 @@ def DLU(matrix):  # create D, L and U matrix
     return D, L, U
 
 
-def jacobiMethod(D, L, U, b, x):
-    x = matrixMultiply(-invertMatrix(D), L + U) * x + invertMatrix(D) * b
+A = [[4, 2, 0], [2, 10, 4], [0, 4, 5]]
+B = [2, 6, 5]
+
+
+def jacobiMethod(matrix, b):
+    Xr, Yr, Zr, condition, count = 0, 0, 0, 1, 0
+    while condition > 0.001:
+        count += 1
+        Xr1 = (b[0] - matrix[0][1] * Yr - matrix[0][2] * Zr)/matrix[0][0]
+        Yr1 = (b[1] - matrix[1][0] * Xr - matrix[1][2] * Zr)/matrix[1][1]
+        Zr1 = (b[2] - matrix[2][1] * Yr - matrix[2][0] * Xr)/matrix[2][2]
+        condition = abs(Xr1 - Xr)
+        Xr, Yr, Zr = round(Xr1, 6), round(Yr1, 6), round(Zr1, 6)
+        print("{0} Z = {1}, Y = {2}, X = {3}".format(count, Zr, Yr, Xr))
+
+
+jacobiMethod(A, B)
